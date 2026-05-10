@@ -50,20 +50,41 @@ OPENAI_MODEL=gpt-4o-mini
 
 `python-dotenv` loads `.env` on startup.
 
-### Streamlit Community Cloud
+### Streamlit Community Cloud (must use GitHub)
 
-1. Connect this repo and set the **main file** to `app.py`.
-2. Under **Secrets**, add at least:
+If you see **“The app’s code is not connected to a remote GitHub repository”**, you opened or created the app from **local files** (or another source). **Community Cloud only deploys apps whose source lives in a GitHub repo** you authorize.
+
+Do this instead:
+
+1. **Put the code on GitHub** (create a repo if needed, then from your machine):
+
+   ```bash
+   git init   # skip if already a repo
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/<YOUR_USER>/<YOUR_REPO>.git
+   git push -u origin main
+   ```
+
+   After the first push, keep deploying in sync with:
+
+   ```bash
+   git add -A && git commit -m "Your message" && git push
+   ```
+
+2. In **[Streamlit Community Cloud](https://share.streamlit.io/)**: **New app** → choose **GitHub** (not “paste” / local-only flows). Install/authorize the Streamlit GitHub app if asked, then pick **repository**, **branch** (`main`), and **Main file path**: `app.py`.
+
+3. **Secrets** (optional, for OpenAI): App settings → **Secrets** → add:
 
    ```toml
    OPENAI_API_KEY = "sk-..."
-   ```
-
-   Optionally:
-
-   ```toml
    OPENAI_MODEL = "gpt-4o-mini"
    ```
+
+   Redeploy or restart the app after changing secrets.
+
+Official guide: [Streamlit Community Cloud Quickstart](https://docs.streamlit.io/deploy/streamlit-community-cloud/get-started/quickstart).
 
 Secrets are copied into the process environment so the OpenAI client and sidebar defaults behave the same as locally.
 
